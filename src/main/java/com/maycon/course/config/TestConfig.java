@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.maycon.course.entities.Category;
 import com.maycon.course.entities.Order;
 import com.maycon.course.entities.OrderItem;
+import com.maycon.course.entities.Payment;
 import com.maycon.course.entities.Product;
 import com.maycon.course.entities.User;
 import com.maycon.course.entities.enums.OrderStatus;
@@ -69,7 +70,7 @@ public class TestConfig implements CommandLineRunner{
 	
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.WAITTING_PAYMENT, u1);
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.SHIPPED, u2);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.DELIVERED, u1); 
 		
@@ -83,5 +84,9 @@ public class TestConfig implements CommandLineRunner{
 	
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		o1.setPayment(pay1);
+		
+		orderRepository.save(o1); 
 	}
 }
